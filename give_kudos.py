@@ -14,7 +14,7 @@ class KudosGiver:
         self.EMAIL = os.environ.get('STRAVA_EMAIL')
         self.PASSWORD = os.environ.get('STRAVA_PASSWORD')
         self.KUDOS_FRIENDS = os.environ.get('KUDOS_FRIENDS')
-        self.SANDBOX = os.environ.get('KUDOS_SANDBOX')
+        self.KUDOS_SANDBOX = os.environ.get('KUDOS_SANDBOX')
 
         if self.EMAIL is None or self.PASSWORD is None:
             raise Exception(f"Must set environ variables EMAIL AND PASSWORD. \
@@ -24,7 +24,7 @@ class KudosGiver:
             raise Exception(f"Must set environ variables KUDOS_FRIENDS AND KUDOS_SANDBOX. \
                 e.g. run export STRAVA_EMAIL=YOUR_EMAIL")
 
-        if self.SANDBOX == "True":
+        if self.KUDOS_SANDBOX == "True":
             print("Sandbox mode is on. Script wont click to give kudos")
         else:
             print("Sandbox mode is off. You have 15 seconds to cancel this script before it runs")
@@ -193,7 +193,7 @@ class KudosGiver:
         Returns 1 if kudos button was clicked else 0
         """
         if unfilled_kudos_container.count() == 1:
-            if self.SANDBOX == "False":
+            if self.KUDOS_SANDBOX == "False":
                 print("now we're clicking to give kudos")
                 unfilled_kudos_container.click(timeout=0, no_wait_after=True)
             else:
