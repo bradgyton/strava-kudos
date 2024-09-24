@@ -20,6 +20,10 @@ class KudosGiver:
             raise Exception(f"Must set environ variables EMAIL AND PASSWORD. \
                 e.g. run export STRAVA_EMAIL=YOUR_EMAIL")
 
+        if self.KUDOS_FRIENDS is None or self.KUDOS_SANDBOX is None:
+            raise Exception(f"Must set environ variables KUDOS_FRIENDS AND KUDOS_SANDBOX. \
+                e.g. run export STRAVA_EMAIL=YOUR_EMAIL")
+
         self.max_run_duration = max_run_duration
         self.start_time = time.time()
         self.num_entries = 100
@@ -165,9 +169,14 @@ class KudosGiver:
         button = None
         try:
             button = container.get_by_test_id("unfilled_kudos")
-            print("and we havent already given kudos")
         except:
             print("Some issue with finding the unfilled_kudos container.")
+        
+        if button == None:
+            print("but you've already given kudos")
+        else:
+            print("and now its time to give kudos")
+        
         return button
 
     def click_kudos_button(self, unfilled_kudos_container) -> int:
@@ -177,8 +186,10 @@ class KudosGiver:
         """
         if unfilled_kudos_container.count() == 1:
             if SANDBOX == "False":
-                print("and now we're clicking to give kudos")
+                print("now we're clicking to give kudos")
                 unfilled_kudos_container.click(timeout=0, no_wait_after=True)
+            else:
+                print("kudos skipped due as KUDOS_SANDBOX is set to True")
             print('=', end='')
             time.sleep(1)
             return 1
@@ -197,6 +208,9 @@ class KudosGiver:
 def main():
     if SANDBOX == "True":
         print("Sandbox mode is on. Script wont click to give kudos")
+    else:
+        print("Sandbox mode is off. You have 15 seconds to cancel this script before it runs")
+        time.sleep(15)
     print("friends are " + KUDOS_FRIENDS)
     kg = KudosGiver()
     kg.email_login()
