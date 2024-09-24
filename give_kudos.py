@@ -5,6 +5,7 @@ from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://www.strava.com/"
 KUDOS_FRIENDS = "19910433,86139977"
+SANDBOX = True
 
 class KudosGiver:
     """
@@ -145,11 +146,11 @@ class KudosGiver:
         try:
             h = container.get_by_test_id("owners-name").get_attribute('href')
             hl = h.split("/athletes/")
-            print("friends are {}", friends)
+            
             owner = hl[1]
-            print("checking if owner {} is in friends {}",owner, friends)
+            print("checking if " + owner + " is in " + friends)
             if owner in friends:
-                print("owner {} is in friends {}",owner, friends)
+                print("it was a friend")
                 return True
         except:
             print("Some issue with getting owners-name container.")            
@@ -174,7 +175,8 @@ class KudosGiver:
         Returns 1 if kudos button was clicked else 0
         """
         if unfilled_kudos_container.count() == 1:
-            unfilled_kudos_container.click(timeout=0, no_wait_after=True)
+            if SANDBOX is False:
+                unfilled_kudos_container.click(timeout=0, no_wait_after=True)
             print('=', end='')
             time.sleep(1)
             return 1
@@ -191,6 +193,9 @@ class KudosGiver:
 
 
 def main():
+    if SANDBOX is True:
+        print("Sandbox mode is on. Script wont click to give kudos")
+    print("friends are " + friends)
     kg = KudosGiver()
     kg.email_login()
     kg.give_kudos()
