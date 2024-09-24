@@ -25,7 +25,7 @@ class KudosGiver:
                 e.g. run export STRAVA_EMAIL=YOUR_EMAIL")
 
         if self.SANDBOX == "True":
-        print("Sandbox mode is on. Script wont click to give kudos")
+            print("Sandbox mode is on. Script wont click to give kudos")
         else:
             print("Sandbox mode is off. You have 15 seconds to cancel this script before it runs")
             time.sleep(15)
