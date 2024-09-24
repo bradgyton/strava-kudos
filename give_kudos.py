@@ -15,6 +15,7 @@ class KudosGiver:
         self.PASSWORD = os.environ.get('STRAVA_PASSWORD')
         self.KUDOS_FRIENDS = os.environ.get('KUDOS_FRIENDS')
         self.KUDOS_SANDBOX = os.environ.get('KUDOS_SANDBOX')
+        self.STATIC_OWN_PROFILE_ID = os.environ.get('STATIC_OWN_PROFILE_ID')
 
         if self.EMAIL is None or self.PASSWORD is None:
             raise Exception(f"Must set environ variables EMAIL AND PASSWORD. \
@@ -82,6 +83,7 @@ class KudosGiver:
             self.own_profile_id = self.page.locator(".user-menu > a").get_attribute('href').split("/athletes/")[1]
             print("id", self.own_profile_id)
         except:
+            self.page.screenshot({ path: 'screenshot.png', fullPage: true })
             print("can't find own profile ID")
 
     def locate_kudos_buttons_and_maybe_give_kudos(self, web_feed_entry_locator) -> int:
