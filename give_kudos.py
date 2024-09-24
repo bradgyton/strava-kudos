@@ -4,8 +4,6 @@ import time
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://www.strava.com/"
-KUDOS_FRIENDS = os.environ.get('KUDOS_FRIENDS')
-SANDBOX = os.environ.get('KUDOS_SANDBOX')
 
 class KudosGiver:
     """
@@ -15,6 +13,8 @@ class KudosGiver:
     def __init__(self, max_run_duration=540) -> None:
         self.EMAIL = os.environ.get('STRAVA_EMAIL')
         self.PASSWORD = os.environ.get('STRAVA_PASSWORD')
+        self.KUDOS_FRIENDS = os.environ.get('KUDOS_FRIENDS')
+        self.SANDBOX = os.environ.get('KUDOS_SANDBOX')
 
         if self.EMAIL is None or self.PASSWORD is None:
             raise Exception(f"Must set environ variables EMAIL AND PASSWORD. \
@@ -23,6 +23,14 @@ class KudosGiver:
         if self.KUDOS_FRIENDS is None or self.KUDOS_SANDBOX is None:
             raise Exception(f"Must set environ variables KUDOS_FRIENDS AND KUDOS_SANDBOX. \
                 e.g. run export STRAVA_EMAIL=YOUR_EMAIL")
+
+        if self.SANDBOX == "True":
+        print("Sandbox mode is on. Script wont click to give kudos")
+        else:
+            print("Sandbox mode is off. You have 15 seconds to cancel this script before it runs")
+            time.sleep(15)
+        
+        print("friends are " + self.KUDOS_FRIENDS)
 
         self.max_run_duration = max_run_duration
         self.start_time = time.time()
@@ -146,7 +154,7 @@ class KudosGiver:
         """
         Returns true if the container's owner is a friend defined in KUDOS_FRIENDS.
         """
-        friends = KUDOS_FRIENDS
+        friends = self.KUDOS_FRIENDS
         try:
             h = container.get_by_test_id("owners-name").get_attribute('href')
             hl = h.split("/athletes/")
@@ -185,7 +193,7 @@ class KudosGiver:
         Returns 1 if kudos button was clicked else 0
         """
         if unfilled_kudos_container.count() == 1:
-            if SANDBOX == "False":
+            if self.SANDBOX == "False":
                 print("now we're clicking to give kudos")
                 unfilled_kudos_container.click(timeout=0, no_wait_after=True)
             else:
@@ -206,12 +214,6 @@ class KudosGiver:
 
 
 def main():
-    if SANDBOX == "True":
-        print("Sandbox mode is on. Script wont click to give kudos")
-    else:
-        print("Sandbox mode is off. You have 15 seconds to cancel this script before it runs")
-        time.sleep(15)
-    print("friends are " + KUDOS_FRIENDS)
     kg = KudosGiver()
     kg.email_login()
     kg.give_kudos()
