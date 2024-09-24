@@ -4,7 +4,7 @@ import time
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://www.strava.com/"
-KUDOS_FRIENDS = "19910433,86139977"
+KUDOS_FRIENDS = os.environ.get('KUDOS_FRIENDS')
 SANDBOX = True
 
 class KudosGiver:
