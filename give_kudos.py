@@ -150,10 +150,10 @@ class KudosGiver:
             print("checking if owner {} is in friends {}",owner, friends)
             if owner in friends:
                 print("owner {} is in friends {}",owner, friends)
-                return true
+                return True
         except:
             print("Some issue with getting owners-name container.")            
-        return false
+        return False
         
 
     
