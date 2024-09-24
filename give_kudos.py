@@ -148,7 +148,7 @@ class KudosGiver:
             print("friends are {}", friends)
             owner = hl[1]
             print("checking if owner {} is in friends {}",owner, friends)
-            if owner in friends
+            if owner in friends:
                 print("owner {} is in friends {}",owner, friends)
                 return true
         except:
