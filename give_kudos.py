@@ -165,6 +165,7 @@ class KudosGiver:
         button = None
         try:
             button = container.get_by_test_id("unfilled_kudos")
+            print("and we havent already given kudos")
         except:
             print("Some issue with finding the unfilled_kudos container.")
         return button
@@ -176,6 +177,7 @@ class KudosGiver:
         """
         if unfilled_kudos_container.count() == 1:
             if SANDBOX == "False":
+                print("and now we're clicking to give kudos")
                 unfilled_kudos_container.click(timeout=0, no_wait_after=True)
             print('=', end='')
             time.sleep(1)
