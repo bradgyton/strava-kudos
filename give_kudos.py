@@ -175,7 +175,7 @@ class KudosGiver:
         Returns 1 if kudos button was clicked else 0
         """
         if unfilled_kudos_container.count() == 1:
-            if SANDBOX is "False":
+            if SANDBOX == "False":
                 unfilled_kudos_container.click(timeout=0, no_wait_after=True)
             print('=', end='')
             time.sleep(1)
@@ -193,7 +193,7 @@ class KudosGiver:
 
 
 def main():
-    if SANDBOX is "True":
+    if SANDBOX == "True":
         print("Sandbox mode is on. Script wont click to give kudos")
     print("friends are " + KUDOS_FRIENDS)
     kg = KudosGiver()
