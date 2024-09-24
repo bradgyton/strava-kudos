@@ -4,6 +4,7 @@ import time
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://www.strava.com/"
+PAGE = None
 
 class KudosGiver:
     """
@@ -52,15 +53,16 @@ class KudosGiver:
         self.page.fill("#password", self.PASSWORD)
         self.page.click("button[type='submit']")
         print("---Logged in!!---")
-        self._run_with_retries(func=self._get_page_and_own_profile,,, page)
+        PAGE = self.page
+        self._run_with_retries(func=self._get_page_and_own_profile)
         
-    def _run_with_retries(self, func, retries=3, page):
+    def _run_with_retries(self, func, retries=3):
         """
         Retry logic with sleep in between tries.
         """
         for i in range(retries):
             if i == retries - 1:
-                print(self.page.content())
+                print(PAGE)
                 raise Exception(f"Retries {retries} times failed.")
             try:
                 func()
