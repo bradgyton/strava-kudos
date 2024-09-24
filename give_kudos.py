@@ -52,9 +52,9 @@ class KudosGiver:
         self.page.fill("#password", self.PASSWORD)
         self.page.click("button[type='submit']")
         print("---Logged in!!---")
-        self._run_with_retries(func=self._get_page_and_own_profile)
+        self._run_with_retries(func=self._get_page_and_own_profile, page=self.page)
         
-    def _run_with_retries(self, func, retries=3):
+    def _run_with_retries(self, func, retries=3, page):
         """
         Retry logic with sleep in between tries.
         """
