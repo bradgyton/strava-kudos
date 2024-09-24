@@ -4,6 +4,7 @@ import time
 from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://www.strava.com/"
+KUDOS_FRIENDS = "19910433,86139977"
 
 class KudosGiver:
     """
@@ -105,8 +106,9 @@ class KudosGiver:
             else:
                 # ignore own activities
                 if not self.is_participant_me(web_feed):
-                    button = self.find_unfilled_kudos_button(web_feed)
-                    given_count += self.click_kudos_button(unfilled_kudos_container=button)
+                    if self.is_participant_friend(web_feed):
+                        button = self.find_unfilled_kudos_button(web_feed)
+                        given_count += self.click_kudos_button(unfilled_kudos_container=button)
         print(f"\nKudos given: {given_count}")
         return given_count
     
@@ -134,6 +136,26 @@ class KudosGiver:
         except:
             print("Some issue with getting owners-name container.")
         return owner == self.own_profile_id
+
+    def is_participant_friend(self, container) -> bool:
+        """
+        Returns true if the container's owner is a friend defined in KUDOS_FRIENDS.
+        """
+        friends = KUDOS_FRIENDS
+        try:
+            h = container.get_by_test_id("owners-name").get_attribute('href')
+            hl = h.split("/athletes/")
+            print("friends are {}", friends)
+            owner = hl[1]
+            print("checking if owner {} is in friends {}",owner, friends)
+            if owner in friends
+                print("owner {} is in friends {}",owner, friends)
+                return true
+        except:
+            print("Some issue with getting owners-name container.")            
+        return false
+        
+
     
     def find_unfilled_kudos_button(self, container):
         """
