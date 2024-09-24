@@ -195,7 +195,7 @@ class KudosGiver:
 def main():
     if SANDBOX is True:
         print("Sandbox mode is on. Script wont click to give kudos")
-    print("friends are " + friends)
+    print("friends are " + KUDOS_FRIENDS)
     kg = KudosGiver()
     kg.email_login()
     kg.give_kudos()
