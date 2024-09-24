@@ -60,6 +60,7 @@ class KudosGiver:
         """
         for i in range(retries):
             if i == retries - 1:
+                self.page.screenshot({ path: 'screenshot1.png', fullPage: true })
                 raise Exception(f"Retries {retries} times failed.")
             try:
                 func()
@@ -83,7 +84,7 @@ class KudosGiver:
             self.own_profile_id = self.page.locator(".user-menu > a").get_attribute('href').split("/athletes/")[1]
             print("id", self.own_profile_id)
         except:
-            self.page.screenshot({ path: 'screenshot.png', fullPage: true })
+            self.page.screenshot({ path: 'screenshot2.png', fullPage: true })
             print("can't find own profile ID")
 
     def locate_kudos_buttons_and_maybe_give_kudos(self, web_feed_entry_locator) -> int:
